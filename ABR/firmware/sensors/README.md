@@ -10,9 +10,10 @@ Reads and manages all environmental sensors: temperature, humidity, pressure (AH
 | BMP280 | Pressure (hPa), Temperature (°C) | I²C | 0x76 (SDO low) / 0x77 | `Adafruit_BMP280` |
 | TEMT6000 | Illuminance (lux, relative) | Analog | A0 | Direct `analogRead()` + calibration |
 
-## Pin Assignments (from config.h)
+## Pin Assignments (from config.h, verified against pinmap.md)
 - I²C SDA: A4, SCL: A5 (shared with DS3231 RTC)
 - Light sensor OUT: A0
+- **Power:** AHT20+BMP280 module operates at 3.3 V logic — requires SmartElex level converter on I²C lines
 
 ## Planned Responsibilities
 - **Initialisation** — Detect and configure each sensor, verify WHO_AM_I / chip IDs
@@ -23,21 +24,29 @@ Reads and manages all environmental sensors: temperature, humidity, pressure (AH
 - **Health monitoring** — Track consecutive failures, trigger re-initialisation
 
 ## Current Status
-**Planned** — Stubs in `abr_firmware.ino`:
-- `setupSensors()` — returns `false`
-- `loopEnvironment()` — reads AHT20 + BMP280 → `currentEnv` (every `INTERVAL_ENV` = 5 s)
-- `loopLight()` — reads TEMT6000 → `currentLight` (every `INTERVAL_LIGHT` = 2 s)
+**STUBBED** — Functions exist in `abr_firmware.ino` but return false / do nothing; data structures are IMPLEMENTED.
+
+## Implementation Status
+| Function / Data Structure | Status | Description |
+|---------------------------|--------|-------------|
+| `setupSensors()` | STUBBED | Returns `false`; records `ERR_AHT20_READ` |
+| `loopEnvironment()` | STUBBED | Empty body; called every `INTERVAL_ENV` (5 s) |
+| `loopLight()` | STUBBED | Empty body; called every `INTERVAL_LIGHT` (2 s) |
+| `EnvReading` struct | IMPLEMENTED | Packed struct: temperature, humidity, pressure, valid flag |
+| `LightReading` struct | IMPLEMENTED | Packed struct: lux, valid flag |
+| `currentEnv` / `currentLight` | IMPLEMENTED | Global instances for data sharing |
+| `i2cReadWithRetry()` | PLANNED | Commented template in `abr_firmware.ino` |
 
 ## Data Structures (from abr_firmware.ino)
 ```cpp
-struct EnvReading {
+struct __attribute__((packed)) EnvReading {
   float temperature = NAN;  // °C
   float humidity    = NAN;  // %RH
   float pressure    = NAN;  // hPa
   bool  valid       = false;
 } currentEnv;
 
-struct LightReading {
+struct __attribute__((packed)) LightReading {
   float lux         = NAN;  // lux (calibrated)
   bool  valid       = false;
 } currentLight;
@@ -46,7 +55,7 @@ struct LightReading {
 ## Integration Points
 - Called from main `loop()` at configured intervals
 - Provides data to `storage` (CSV logging), `display` (local readout), `comm` (future remote)
-- Shares I²C bus with `time` module (DS3231) — bus arbitration via sequential calls
+- Shares I²C bus with `time` module (DS3231) — bus arbitration via sequential calls in main loop
 
 ## Files (Planned)
 - `sensors.h` / `sensors.cpp` — Public API: `sensors_init()`, `sensors_read_env()`, `sensors_read_light()`
@@ -64,3 +73,4 @@ struct LightReading {
 - I²C pull-ups: verify modules have them; Uno internal pull-ups (via `Wire`) are weak (20–50 kΩ)
 - Handle `NAN` propagation — downstream modules must check `.valid` before using values
 - Measurement intervals in `config.h` are minimums; actual loop timing depends on `millis()` scheduling
+- **Voltage warning:** AHT20+BMP280 module operates at 3.3 V logic. The SmartElex level converter is REQUIRED on I²C lines (SDA/SCL). Do not connect directly to Uno 5 V pins.

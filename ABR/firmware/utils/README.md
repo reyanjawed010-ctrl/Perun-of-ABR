@@ -13,7 +13,21 @@ Common helper functions, macros, and data structures used across firmware module
 - **Debug/assert** — Conditional compilation macros for `DEBUG_ENABLED`
 
 ## Current Status
-**Planned** — No implementation yet. `abr_firmware.ino` has inline `logToSerial()` helper.
+**PARTIALLY IMPLEMENTED** — Several helpers exist inline in `abr_firmware.ino`; no separate `utils.h`/`utils.cpp` module yet.
+
+## Implementation Status
+| Function / Feature | Status | Location |
+|--------------------|--------|----------|
+| `logToSerial()` | IMPLEMENTED | `abr_firmware.ino` — variadic, PROGMEM format support |
+| `recordError()` | IMPLEMENTED | `abr_firmware.ino` — error tracking with timestamp/context |
+| `freeRam()` | IMPLEMENTED | `abr_firmware.ino` — AVR heap/stack diagnostic |
+| `i2cReadWithRetry()` | PLANNED | Commented template in `abr_firmware.ino` |
+| `spiTransferTFT()` / `spiTransferSD()` | PLANNED | Commented templates in `abr_firmware.ino` |
+| `interval_elapsed()` | PLANNED | — |
+| `fmt_float()` / `fmt_iso8601()` | PLANNED | — |
+| Validation helpers (`valid_temp`, etc.) | PLANNED | — |
+| `RingBuffer` template | PLANNED | — |
+| CRC/checksum | PLANNED | — |
 
 ## Integration Points
 - Header-only or single `.cpp` included by all modules
@@ -50,3 +64,4 @@ class RingBuffer { ... };
 - Prefer `constexpr`/`inline` for header-only helpers
 - `DEBUG_ENABLED` from `config.h` gates all debug output
 - Document assumptions (e.g., float precision, endianness) for portability
+- Extract existing `logToSerial()`, `recordError()`, `freeRam()` from `abr_firmware.ino` into this module when created

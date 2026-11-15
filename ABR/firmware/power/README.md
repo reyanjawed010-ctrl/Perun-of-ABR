@@ -19,7 +19,19 @@ Manages power consumption, supply monitoring, and low-power operation for the AB
 - **Watchdog** — Reset on firmware hang
 
 ## Current Status
-**Planned** — No implementation yet. Not referenced in `abr_firmware.ino` stubs.
+**PLANNED** — No power module implementation exists. Watchdog timer is IMPLEMENTED in `abr_firmware.ino` (`setupWatchdog()`, `loopWatchdog()`) but no dedicated power management module.
+
+## Implementation Status
+| Function / Feature | Status | Location |
+|--------------------|--------|----------|
+| `setupWatchdog()` | IMPLEMENTED | `abr_firmware.ino` — enables WDTO_8S |
+| `loopWatchdog()` | IMPLEMENTED | `abr_firmware.ino` — calls `wdt_reset()` every 1 s |
+| `power_init()` | PLANNED | — |
+| `power_sleep()` | PLANNED | — |
+| `power_get_vcc()` | PLANNED | — |
+| `power_is_low()` | PLANNED | — |
+| Peripheral power control | PLANNED | — |
+| Brown-out handling | PLANNED | — |
 
 ## Integration Points
 - Called from main `loop()` to enter sleep between intervals
@@ -39,3 +51,4 @@ Manages power consumption, supply monitoring, and low-power operation for the AB
 - Level converter is always-on; factor its quiescent current
 - If solar/battery added later, this module expands to MPPT, charge control, SoC estimation
 - Keep it simple for Phase 2; add sophistication only when deployment demands it
+- **Voltage warning:** All 3.3 V modules (ST7789, MicroSD, AHT20+BMP280) require the SmartElex level converter. The DS3231 may be 5 V tolerant — verify your specific module.
