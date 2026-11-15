@@ -8,7 +8,7 @@ Status labels: **Planned**, **In development**, **Implemented**, **Tested**. Onl
 
 - Add contribution guidance and ignore rules.
 - Keep the README and project status accurate.
-- Choose a licence (deferred).
+- Choose a licence (MIT — done).
 
 ## Phase 1 — Planning documentation
 

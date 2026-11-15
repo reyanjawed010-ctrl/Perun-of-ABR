@@ -69,7 +69,7 @@ Keep ABR-specific files separate from broader Perun documentation. Do not presen
 
 ## Licence
 
-The project licence has not yet been finalised. A `LICENSE` file will be added once the licence is chosen. Until then, do not assume reuse rights beyond what is provided by GitHub's terms and the project maintainers' permission.
+This project is licensed under the MIT License — see the [LICENSE](../LICENSE) file for details. Do not assume reuse rights beyond what is provided by the MIT License and GitHub's terms.
 
 ## AI assistance
 

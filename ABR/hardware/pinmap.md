@@ -38,7 +38,7 @@ The ST7789 TFT display and the MicroSD module share the SPI bus. Each device req
 | Signal | Arduino pin | Notes |
 |--------|-------------|-------|
 | CS | D10 | Chip select — active low |
-| DC/RS | D9 | Data/command select |
+| DC/RS | D7 | Data/command select |
 | RST | D8 | Reset line; some modules use the Arduino reset pin instead |
 | MOSI | D11 | Shared SPI bus |
 | MISO | D12 | Shared SPI bus |

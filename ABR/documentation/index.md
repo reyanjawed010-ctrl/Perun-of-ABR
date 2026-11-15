@@ -4,15 +4,26 @@ ABR (ابر) is the weather station hardware project within Perun. It is intende
 
 ## Current status
 
-ABR is in the planning and documentation stage. The physical station has not been built or tested. All hardware is proposed and has not yet been acquired.
+**Phase 0 & 1: In development** — Repository foundations and planning documentation are drafted but **not validated on physical hardware**.
+**Phase 2+: Planned** — Firmware, integration, prototype and release are blocked until physical hardware is acquired and tested.
+
+The physical station has not been built or tested. All hardware is proposed and has not yet been acquired.
 
 ## Documents
 
-- [Hardware overview](hardware-overview.md)
-- [Wiring](wiring.md)
-- [Pin map](../hardware/pinmap.md)
-- [Bill of materials](../hardware/BOM.md)
-- [Roadmap](roadmap.md)
+| Document | Status | Description |
+|----------|--------|-------------|
+| [Hardware overview](hardware-overview.md) | In development | Architecture, components, power/logic levels, open questions |
+| [Wiring](wiring.md) | In development | Bus overview, connection notes, pre-wiring checklist |
+| [Pin map](../hardware/pinmap.md) | In development | Proposed Arduino pin assignments, I²C addresses, voltage compatibility |
+| [Bill of materials](../hardware/BOM.md) | In development | 6 confirmed components, ₹830 total, verification checklist |
+| [Roadmap](roadmap.md) | In development | 6-phase development plan with status labels |
+
+## Quick links
+
+- [Main README](../../README.md)
+- [Contributing guidelines](../../CONTRIBUTING.md)
+- [Licence](../../LICENSE)
 
 ## Current limitations
 
@@ -20,3 +31,4 @@ ABR is in the planning and documentation stage. The physical station has not bee
 - No firmware has been implemented.
 - No measurements or test results exist.
 - Component variants, logic levels and compatibility are unverified.
+- Pin assignments are proposals and must be verified against datasheets before wiring.
